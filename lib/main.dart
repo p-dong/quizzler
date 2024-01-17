@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
 
@@ -28,6 +28,18 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
+  List<Widget> scoreKeeper = [
+    // if we didn't add widget inside the angle bracket, the list will be dynamic means it will be list of other datatypes too. so we need to mention a certain type of specific datatype.
+    Icon(
+      Icons.check,
+      color: Colors.green,
+    ),
+    Icon(
+      Icons.close,
+      color: Colors.red,
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -55,7 +67,16 @@ class _QuizPageState extends State<QuizPage> {
           child: Padding(
             padding: EdgeInsets.all(15.0),
             child: TextButton(
-              onPressed: () {},
+              onPressed: () {
+                setState(() {
+                  scoreKeeper.add(
+                    Icon(
+                      Icons.check,
+                      color: Colors.green,
+                    ),
+                  );
+                });
+              },
               child: Text(
                 'True',
                 style: TextStyle(
@@ -77,7 +98,16 @@ class _QuizPageState extends State<QuizPage> {
           child: Padding(
             padding: EdgeInsets.all(15.0),
             child: TextButton(
-              onPressed: () {},
+              onPressed: () {
+                setState(() {
+                  scoreKeeper.add(
+                    Icon(
+                      Icons.close,
+                      color: Colors.red,
+                    ),
+                  );
+                });
+              },
               child: Text(
                 'False',
                 style: TextStyle(
@@ -93,6 +123,9 @@ class _QuizPageState extends State<QuizPage> {
               ),
             ),
           ),
+        ),
+        Row(
+          children: scoreKeeper,
         ),
       ],
     );
