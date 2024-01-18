@@ -1,6 +1,8 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
 
 import 'package:flutter/material.dart';
+import 'question.dart';
+import 'quiz_brain.dart';
 
 void main() => runApp(Quizzler());
 
@@ -10,7 +12,16 @@ class Quizzler extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        backgroundColor: Colors.grey.shade900,
+        appBar: AppBar(
+          title: Text(
+            'Quizzler',
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+          backgroundColor: Colors.grey[800],
+        ),
+        backgroundColor: Colors.grey[700],
         body: SafeArea(
           child: Padding(
             padding: EdgeInsets.all(10.0),
@@ -30,15 +41,9 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   List<Widget> scoreKeeper = [
     // if we didn't add widget inside the angle bracket, the list will be dynamic means it will be list of other datatypes too. so we need to mention a certain type of specific datatype.
-    Icon(
-      Icons.check,
-      color: Colors.green,
-    ),
-    Icon(
-      Icons.close,
-      color: Colors.red,
-    ),
   ];
+
+  QuizBrain quizBrain = QuizBrain();
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +57,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                'This is where the question will be displayed.',
+                quizBrain.getQuestionText(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white,
@@ -68,7 +73,17 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(15.0),
             child: TextButton(
               onPressed: () {
+                // the user choose true
+                bool correctAnswer = quizBrain.getQuestionAnswer();
+
+                if (correctAnswer == true) {
+                  print('user got it right');
+                } else {
+                  print('user got it wrong');
+                }
+
                 setState(() {
+                  quizBrain.nextQuestion();
                   scoreKeeper.add(
                     Icon(
                       Icons.check,
@@ -99,7 +114,17 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(15.0),
             child: TextButton(
               onPressed: () {
+                // The user choose false
+                bool correctAnswer = quizBrain.getQuestionAnswer();
+
+                if (correctAnswer == false) {
+                  print('user got it right');
+                } else {
+                  print('user got it wrong');
+                }
+
                 setState(() {
+                  quizBrain.nextQuestion();
                   scoreKeeper.add(
                     Icon(
                       Icons.close,
