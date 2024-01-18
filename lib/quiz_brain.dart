@@ -81,4 +81,8 @@ class QuizBrain {
   bool getQuestionAnswer() {
     return _questionBank[_questionNumber].questionAnswer;
   }
+
+  int totalQuestion() {
+    return _questionBank.length;
+  }
 }

@@ -43,7 +43,35 @@ class _QuizPageState extends State<QuizPage> {
     // if we didn't add widget inside the angle bracket, the list will be dynamic means it will be list of other datatypes too. so we need to mention a certain type of specific datatype.
   ];
 
+  int rightAnswer = 0;
+  int totalQuestion = 0;
+
   QuizBrain quizBrain = QuizBrain();
+
+  void checkAnswer(userPicked) {
+    bool correctAnswer = quizBrain.getQuestionAnswer();
+    setState(() {
+      if (userPicked == correctAnswer) {
+        rightAnswer++;
+        quizBrain.nextQuestion();
+        // scoreKeeper.add(
+        //   Icon(
+        //     Icons.check,
+        //     color: Colors.green,
+        //   ),
+        // );
+      } else {
+        // scoreKeeper.add(
+        //   Icon(
+        //     Icons.close,
+        //     color: Colors.red,
+        //   ),
+        // );
+      }
+      totalQuestion++;
+      quizBrain.nextQuestion();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,23 +102,7 @@ class _QuizPageState extends State<QuizPage> {
             child: TextButton(
               onPressed: () {
                 // the user choose true
-                bool correctAnswer = quizBrain.getQuestionAnswer();
-
-                if (correctAnswer == true) {
-                  print('user got it right');
-                } else {
-                  print('user got it wrong');
-                }
-
-                setState(() {
-                  quizBrain.nextQuestion();
-                  scoreKeeper.add(
-                    Icon(
-                      Icons.check,
-                      color: Colors.green,
-                    ),
-                  );
-                });
+                checkAnswer(true);
               },
               child: Text(
                 'True',
@@ -114,24 +126,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(15.0),
             child: TextButton(
               onPressed: () {
-                // The user choose false
-                bool correctAnswer = quizBrain.getQuestionAnswer();
-
-                if (correctAnswer == false) {
-                  print('user got it right');
-                } else {
-                  print('user got it wrong');
-                }
-
-                setState(() {
-                  quizBrain.nextQuestion();
-                  scoreKeeper.add(
-                    Icon(
-                      Icons.close,
-                      color: Colors.red,
-                    ),
-                  );
-                });
+                checkAnswer(false);
               },
               child: Text(
                 'False',
@@ -150,7 +145,17 @@ class _QuizPageState extends State<QuizPage> {
           ),
         ),
         Row(
-          children: scoreKeeper,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: Text(
+                '$rightAnswer/$totalQuestion',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );
